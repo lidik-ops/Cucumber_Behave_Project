@@ -1,15 +1,17 @@
 import logging
 from behave import given, when, then
 from Utilities.CommonFuncs import webcommon
+from Utilities.CommonConfigs import urlconfig
 
 # configuring the logging
 logging.basicConfig(level='INFO')
 
 
-@given(u'I go to the site {url}')
-def go_to_url(context, url):
+@given(u'I go to the site {site}')
+def go_to_url(context, site):
     """Step definition to got to a specific url"""
-    logging.info("Navigating to the site: {}".format(url))
+    url = urlconfig.URLCONFIG.get(site)
+    logging.info("Navigating to the site: {}".format(site))
     context.driver = webcommon.go_to(url)
 
 

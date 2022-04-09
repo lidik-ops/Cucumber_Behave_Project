@@ -6,7 +6,6 @@ from selenium import webdriver
 
 def go_to(url, browser_type=None):
     """Function to start instance of a specific browser and navigate to a specific url"""
-    print("already here")
     if not browser_type:
         driver = webdriver.Chrome()
     elif browser_type.lower() == 'firefox':
@@ -15,6 +14,8 @@ def go_to(url, browser_type=None):
         raise Exception("The browser type '{}' is not supported")
 
     # Clean the url and got to url
+    import pdb;
+    pdb.set_trace()
     url = url.strip()
     url = 'https://' + url
     driver.get(url)
@@ -38,9 +39,28 @@ def assert_current_url(context, expected_url):
     print("The page url is as expected")
 
 
-def assert_text_visible(text):
-    pass
+def find_element(context, locator_attribute, locator_text):
+    possible_locators = ["id", "xpath", "link text", "partial link text", "name", "tag name", "class name",
+                         "css selector"]
+
+    if locator_attribute not in possible_locators:
+        raise Exception('The locator attribute provided is not in the approved attributes.' \
+                        'The approved attributes are : %s' % possible_locators)
+    try:
+        element = context.driver.find_element(locator_attribute, locator_text)
+        return element
+    except Exception as e:
+        raise Exception(e)
+
+
+def is_element_visible(element):
+    if element.is_displayed():
+        return True
+    else:
+        return False
 
 
 def assert_element_visible(element):
-    pass
+    if not element.is_displayed():
+        raise AssertionError('The element is not displayed')
+

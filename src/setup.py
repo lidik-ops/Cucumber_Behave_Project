@@ -8,6 +8,7 @@ setup(name='amazonBDD',
       url='amazon.com',
       packages=['Utilities',
                 'Utilities.CommonFuncs',
-                'Utilities.CommonSteps'
+                'Utilities.CommonSteps',
+                'Utilities.CommonConfigs'
                 ],
       )
