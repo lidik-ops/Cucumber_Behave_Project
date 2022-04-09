@@ -1,4 +1,6 @@
 from Utilities.CommonSteps.webstepscommon import *
+from Utilities.CommonConfigs import locatorsconfig
+from Utilities.CommonFuncs import webcommon
 
 
 @then('the {nav_bar} should be visible')
@@ -8,12 +10,9 @@ def verify_nav_bars_visible(context, nav_bar):
         raise BaseException("The passed in nav_bar type is not one of expected."
                             "Actual: {}, Expected in: {}".format(nav_bar, expected_bars))
 
-    if nav_bar == 'main navigation':
-        element = "//div[@id='nav-xshop-container']"
-        context.webdriver.find_element_by_xpath(element)
-    elif nav_bar == 'top navigation':
-        element = "//div[@id='nav-belt']"
-        context.webdriver.find_element_by_xpath(element)
-    else:
-        element = "//a[@id='nav-hamburger-menu']"
-        context.webdriver.find_element_by_xpath(element)
+    locators_info = locatorsconfig.LOCATORS.get(nav_bar)
+    locators_type = locators_info['type']
+    locators_text = locators_info['locator']
+
+    nav_element = webcommon.find_element(context, locators_type, locators_text)
+    webcommon.assert_element_visible(nav_element)
